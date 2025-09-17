@@ -1,0 +1,171 @@
+using System;
+
+class SimpleCalculator
+{
+    static void Main()
+    {
+        Console.WriteLine("Простой калькулятор");
+        Console.WriteLine("===================");
+        
+        const double MAX_VALUE = 100000000; // 10^8 - максимальное число
+        const int MAX_INPUT_LENGTH = 15;    // предел ввода символов
+        
+        while (true)
+        {
+            try
+            {
+                // Ввод первого числа
+                Console.Write("Введите первое число: ");
+                string inputA = Console.ReadLine();
+                
+                // Проверка предела ввода
+                if (inputA.Length > MAX_INPUT_LENGTH)
+                {
+                    Console.WriteLine($"Ошибка: превышен лимит ввода (15 символов)!");
+                    Console.WriteLine();
+                    continue;
+                }
+                
+                double a = Convert.ToDouble(inputA);
+                
+                // Проверка максимального значения
+                if (Math.Abs(a) > MAX_VALUE)
+                {
+                    Console.WriteLine($"Ошибка: число не должно превышать 10^8!");
+                    Console.WriteLine();
+                    continue;
+                }
+                
+                // Ввод оператора
+                Console.Write("Введите оператор (+, -, *, /): ");
+                string operationInput = Console.ReadLine();
+
+                
+                // Проверка на несколько операций
+                if (operationInput.Length != 1)
+                {
+                    Console.WriteLine("Ошибка: введите только один оператор!");
+                    Console.WriteLine();
+                    continue;
+                }
+                
+                char operation = operationInput[0];
+                
+                // Проверка допустимых операторов
+                if (operation != '+' && operation != '-' && operation != '*' && operation != '/')
+                {
+                    Console.WriteLine("Ошибка: недопустимый оператор! Используйте +, -, *, /");
+                    Console.WriteLine();
+                    continue;
+                }
+                
+                // Ввод второго числа
+                Console.Write("Введите второе число: ");
+                string inputB = Console.ReadLine();
+                
+                // Проверка предела ввода
+                if (inputB.Length > MAX_INPUT_LENGTH)
+                {
+                    Console.WriteLine($"Ошибка: превышен лимит ввода ({MAX_INPUT_LENGTH} символов)!");
+                    Console.WriteLine();
+                    continue;
+                }
+                
+                double b = Convert.ToDouble(inputB);
+                
+                // Проверка максимального значения
+                if (Math.Abs(b) > MAX_VALUE)
+                {
+                    Console.WriteLine($"Ошибка: число не должно превышать {MAX_VALUE}!");
+                    Console.WriteLine();
+                    continue;
+                }
+                
+                double result = 0;
+                bool validOperation = true;
+                
+                // Выполнение операции через if/else
+                if (operation == '+')
+                {
+                    result = a + b;
+                    
+                    if (Math.Abs(result) > MAX_VALUE)
+                    {
+                        Console.WriteLine($"Ошибка: результат превышает максимальное значение {MAX_VALUE}!");
+                        validOperation = false;
+                    }
+                }
+                else if (operation == '-')
+                {
+                    result = a - b;
+                    if (Math.Abs(result) > MAX_VALUE)
+                    {
+                        Console.WriteLine($"Ошибка: результат превышает максимальное значение {MAX_VALUE}!");
+                        validOperation = false;
+                    }
+                }
+                else if (operation == '*')
+                {
+                    result = a * b;
+if (Math.Abs(result) > MAX_VALUE)
+{
+                        Console.WriteLine($"Ошибка: результат превышает максимальное значение {MAX_VALUE}!");
+                        validOperation = false;
+                    }
+                }
+                else if (operation == '/')
+                {
+                    if (b == 0)
+                    {
+                        Console.WriteLine("Ошибка: деление на ноль невозможно!");
+                        validOperation = false;
+                    }
+                    else
+                    {
+                        result = a / b;
+                        if (Math.Abs(result) > MAX_VALUE)
+                        {
+                            Console.WriteLine($"Ошибка: результат превышает максимальное значение {MAX_VALUE}!");
+                            validOperation = false;
+                        }
+                    }
+                }
+                
+                // Вывод результата если операция была valid
+                if (validOperation)
+                {
+                    Console.WriteLine($"Результат: {a} {operation} {b} = {result}");
+                }
+                Console.WriteLine();
+                
+                // Запрос на продолжение
+                Console.Write("Хотите продолжить? (д/н): ");
+                string choice = Console.ReadLine().ToLower();
+                
+                if (choice != "y" && choice != "yes" && choice != "д" && choice != "да")
+                {
+                    break;
+                }
+                Console.WriteLine();
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Ошибка: введите корректное число.");
+                Console.WriteLine();
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Ошибка: введено слишком большое число!");
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Произошла непредвиденная ошибка: {ex.Message}");
+                Console.WriteLine();
+            }
+        }
+        
+        Console.WriteLine("Калькулятор завершил свою работу на сегодня. Нажмите любую клавишу...");
+        Console.ReadKey();
+    }
+}
